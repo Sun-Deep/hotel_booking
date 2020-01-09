@@ -1,0 +1,33 @@
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Add Hotel Room Categories</h6>
+</div>
+<form method="POST" action="/hotel_categories" enctype="multipart/form-data">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="photo">Photo</label>
+      <input type="file" class="form-control" name="photo" id="photo" placeholder="Photo">
+    </div>
+  
+    <div class="form-group col-md-6">
+        <label for="max_guest">Max Guest</label>
+        <input type="number" class="form-control" name="max_guest" id="max_guest" placeholder="Maximum Guest">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="child">Child</label>
+        <input type="number" class="form-control" name="child" id="child" placeholder="Child">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="extra_bed">Extra Bed</label>
+        <input type="number" class="form-control" name="extra_bed" id="extra_bed" placeholder="Extra Bed">
+    </div>
+    <div class="form-group col-md-6">
+        <label for="descriptions">Descriptions</label>
+        <textarea name="descriptions" id="descriptions" cols="30" rows="4" class="form-control"></textarea>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

@@ -1,0 +1,44 @@
+<!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Hotel Room Categories</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Photo</th>
+                      <th>Max Guest</th>
+                      <th>Child</th>
+                      <th>Extra Bed</th>
+                      <th>Delete | Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{#each results}}
+                    <tr>
+                      <td>{{name}}</td>
+                      <td>
+                          <img src="/images/{{photos}}" class="img img-fluid" style="height: 100px; width: 150px;">
+                      </td>
+                      <td>{{max_guest}}</td>
+                      <td>{{child}}</td>
+                      <td>{{extra_bed}}</td>
+                      <td>
+                            <a href="#" class="btn btn-danger btn-circle">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="#" class="btn btn-warning btn-circle">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                       </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>

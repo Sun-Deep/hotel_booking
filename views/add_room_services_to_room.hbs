@@ -1,0 +1,26 @@
+
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Add Services To Room</h6>
+</div>
+<form method="POST" action="/add_room_services_to_room">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="category">Room Category</label>
+      <select class="form-control" id="category" name="category">
+          {{#each categories}}
+            <option value="{{id}}">{{name}}</option>
+          {{/each}}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+            <label for="services">Room Services</label>
+            <!-- Multiselect dropdown -->
+            <select multiple data-style="bg-white shadow-sm " class="form-control selectpicker" name="services" id="services">
+                {{#each services}}
+                    <option value="{{id}}">{{service_name}}</option>
+                {{/each}}
+            </select><!-- End -->
+      </div>
+    </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

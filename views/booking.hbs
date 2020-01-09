@@ -1,0 +1,223 @@
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Booking</h6>
+</div>
+
+
+<form method="POST" action="/booking">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="firstname">First Name</label>
+      <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First Name" value="{{inquiry.first_name}}">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="lastname">Last Name</label>
+      <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last Name" value="{{inquiry.last_name}}">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="contact">Contact No.</label>
+      <input type="number" class="form-control" name="contact" id="contact" placeholder="Contact Number" value="{{inquiry.contact}}">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="address">Address</label>
+      <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="{{inquiry.address}}">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="check_in">Check In</label>
+      <input type="date" class="form-control" name="check_in" id="check_in" placeholder="Check In" value="{{inquiry.checked_in}}">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="check_out">Check Out</label>
+      <input type="date" class="form-control" name="check_out" id="check_out" placeholder="Check Out" value="{{inquiry.checked_out}}">
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="total_room">Rooms | Adult | Child | Extra Bed</label>
+      <input type="text" class="form-control" name="total_room" id="total_room" placeholder="Rooms" value="{{inquiry.rooms}}(rooms) | {{inquiry.adult}}(adults) | {{inquiry.child}}(childs) | {{inquiry.extra_bed}}(extra bed)">
+    </div>
+
+    <div class="form-group col-md-6">
+            <label for="services">Rooms</label>
+            <!-- Multiselect dropdown -->
+            <select multiple onchange="change_room()" data-style="bg-white shadow-sm" class="form-control selectpicker" name="rooms" id="rooms">
+                {{#each results}}
+                    <option value="{{room_id}}">{{room_id}} ({{name}})</option>
+                {{/each}}
+            </select><!-- End -->
+      </div>
+  </div>
+  <!-- for selecting rooms and people -->
+  <div class="form-group">
+    <div class="row" id="room-details">
+      
+    </div>
+  </div>
+
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Total Amount</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span class="adult box"></span>
+          <span class="child box"></span>
+          <span class="extra_bed box"></span> 
+          <hr>
+          <div class="bill"> 
+            
+          </div>
+          <hr>
+          <p id="sub-total">Sub Total: </p> 
+          <p id="service-charge">Service Charge: </p>
+          <p id="tax">Tax: </p> 
+          <hr>
+          <h3 id="total_amount">Total Amount: </h3>     
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger" id="submit">Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary" onclick="calculate()" data-toggle="modal" data-target="#myModal">Calculate</button>
+</form>
+ <!-- The Modal -->
+
+
+
+<script>
+  // variables
+  let temp = []
+  let values = []
+  var remove_val = "";
+  let rate = {}
+
+  // function to check the number is in the array or not
+  function checkValue(number){
+    if (values.includes(number)){
+      return true
+    }else{
+      console.log(number)
+      remove_val = number
+      return false
+    }
+  }
+
+  // function to add or remove rooms for booking
+  function change_room(){
+    values = $('#rooms').val() 
+   // console.log(values)
+    let result = ""
+    let guest = ""
+    if(temp.length > values.length){
+     temp = temp.filter(checkValue)
+     console.log("remove_detail"+remove_val)
+     $(".remove_detail"+remove_val).remove()
+    }else{
+      for(var j = 0; j < values.length; j++){
+        if(!temp.includes(values[j])){
+          temp.push(values[j])
+          let room_number = values[j]
+          $.ajax({
+            type: 'GET',
+            url: '/rooms/' + values[j],
+            success: (data) => {
+            //  console.log(data)
+              if (data.length > 0){
+                adult_rate = data[0].adult_rate
+                extra_bed_rate = data[0].extra_bed_rate
+                extra_guest_rate = data[0].extra_guest_rate
+                cat = data[0].name
+                rate[room_number] = [adult_rate, extra_bed_rate, extra_guest_rate, cat]
+
+                //rate.push({room_number, adult_rate, extra_bed_rate, extra_guest_rate})
+
+                result += "<div class='col-md-3 mb-5 remove_detail"+ room_number +"'> <input class='form-control' type='text' name='room_no"+ room_number+"' value='"+ room_number +"' disabled /><label>Adult</label> <select name='max_guest"+ room_number +"' class='form-control class-adult'>"
+                result += "<option value='0'> Adult </option>"
+                for(var i = 1; i <= data[0].max_guest; i++){
+                  guest += "<option value='"+i+"'>" + i +"</option>"
+                }
+                result += guest + "</select>"
+                result += "<label>Child</label><select name='child"+ room_number +"' class='form-control class-child'><option value='0'> Child </option><option value='" + data[0].child +"'>" + data[0].child +"</option></select>"
+                result += "<label>Extra Bed</label><select name='extra_bed"+ room_number +"' class='form-control class-extrabed'><option value='0'> Extra Bed </option><option value='" + data[0].extra_bed +"'>" + data[0].extra_bed +"</option></select></div>"
+                $("#room-details").append(result)
+              }
+            }
+          }) 
+        }
+      }
+    }
+  }
+
+  // function to calculate the total amount
+  function calculate(){
+    let i = 0
+    let adult = 0
+    let total_adult = 0
+    let adult_amount = 0
+    let cat = ""
+    let child = 0
+    let total_child = 0
+    let extra_bed = 0
+    let total_extra_bed = 0
+    let extra_bed_amount = 0
+    let elementName = ""
+    let temp_detail = []
+    let bill = ""
+    let total_amount = 0
+    let service_charge = 100
+    let tax = 13
+    $(".bill-content").remove()
+    $(document).ready(function(){
+      elementName = $("#room-details").find("[name]").map(function() {
+        return this.name;
+      }).get();
+      
+      while(i < elementName.length){
+        room_no = parseInt($("input[name="+ elementName[i] +"]").val())
+        adult = parseInt($("select[name="+ elementName[++i] +"]").val())
+        total_adult += adult
+        child = parseInt($("select[name="+ elementName[++i] +"]").val())
+        total_child += child
+        extra_bed = parseInt($("select[name="+ elementName[++i] +"]").val())
+        total_extra_bed += extra_bed
+        ++i
+        adult_amount = adult * rate[room_no][0] + rate[room_no][2] * Math.abs(adult - 1)
+        extra_bed_amount = rate[room_no][1] * extra_bed
+        cat = rate[room_no][3]
+        temp_detail.push({room_no, adult, child, extra_bed, adult_amount, extra_bed_amount, cat})
+      }
+      console.log(rate)
+      
+      $(".adult").html(total_adult + " Adult")
+      $(".child").html(total_child + " Child")
+      $(".extra_bed").html(total_extra_bed + " Extra Bed")
+      for(let j = 0; j < temp_detail.length; j++){
+        bill += "<div class='bill-content'><small>"+ temp_detail[j]['room_no'] + "("+ temp_detail[j]['cat'] +")" +"</small>"
+        bill += "<small> Adult: "+ temp_detail[j]['adult'] +" --> Rs. "+ temp_detail[j]['adult_amount'] +"</small>"
+        bill += "<small> Extra Bed: "+ temp_detail[j]['extra_bed'] +" --> Rs. "+ temp_detail[j]['extra_bed_amount'] +"</small><br>"
+        total_amount += temp_detail[j]['adult_amount'] + temp_detail[j]['extra_bed_amount']
+      }
+      $(".bill").append(bill)
+      $("#sub-total").html("Sub Total: Rs. "+total_amount)
+      $("#service-charge").html("Service Charge: Rs. "+ service_charge)
+      $("#tax").html("Tax: Rs. "+ tax +"%")
+      $("#total_amount").html("Total Amount: Rs. "+ (total_amount + service_charge + 0.13 * (total_amount)).toFixed(3))
+      
+    });
+  }
+
+
+</script>

@@ -1,0 +1,70 @@
+<!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Room Booking Inquiries</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="190%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Address</th>
+                      <th>Checked_In</th>
+                      <th>Checked_Out</th>
+                      <th>No. Rooms</th>
+                      <th>No. Adults</th>
+                      <th>No. Child</th>
+                      <th>No. Extra Bed</th>
+                      <th>Amount</th>
+                      <th>Called ?</th>
+                      <th>Date</th>
+                      <th>Delete | Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{#each results}}
+                    <tr>
+                      <td>{{first_name}}</td>
+                      <td>{{last_name}}</td>
+                      <td>{{address}}</td>
+                      <td>{{checked_in}}</td>
+                      <td>{{checked_out}}</td>
+                      <td>{{rooms}}</td>
+                      <td>{{adult}}</td>
+                      <td>{{child}}</td>
+                      <td>{{extra_bed}}</td>
+                      <td>{{amount}}</td>
+                      {{#ifEquals called 0}}
+                        <td>Not Called</td>
+                       {{else}}
+                        <td>Called</td>
+                      {{/ifEquals}}
+                      <td>{{date}}</td>
+                      <td>
+                            <a href="#" class="btn btn-danger btn-circle">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            &nbsp;&nbsp;
+                            <a href="/inquiry/{{id}}" class="btn btn-warning btn-circle">
+                                <i class="fas fa-edit"></i>
+                            </a>&nbsp;&nbsp;
+                            {{#ifEquals called 1}}
+                              <a href="/booking/{{id}}" class="btn btn-success btn-circle">
+                                  <i class="far fa-share-square"></i>
+                              </a>
+                            {{/ifEquals}}
+                       </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+         
+
+    
+          
+        

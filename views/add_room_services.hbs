@@ -1,0 +1,19 @@
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Add Room Service</h6>
+</div>
+<form method="POST" action="/room_services">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="feature_id">Room Feature</label>
+      <select class="form-control" id="feature_id" name="feature_id">
+          {{#each results}}
+            <option value="{{id}}">{{feature_name}}</option>
+          {{/each}}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="room_service">Room Service</label>
+      <input type="text" class="form-control" name="room_service" id="room_service" placeholder="Room Service">
+    </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

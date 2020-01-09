@@ -1,0 +1,19 @@
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Add Hotel Room</h6>
+</div>
+<form method="POST" action="/add_room">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="category">Room Category</label>
+      <select class="form-control" id="category" name="category">
+          {{#each results}}
+            <option value="{{id}}">{{name}}</option>
+          {{/each}}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="room_no">Room Number</label>
+      <input type="number" class="form-control" name="room_no" id="room_no" placeholder="Room No.">
+    </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

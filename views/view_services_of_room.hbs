@@ -1,0 +1,35 @@
+<!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">View Services of Rooms</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div class="row">
+                  {{#each categories}}
+                  <div class="col">
+                    <table class="table table-bordered" id="dataTable" cellspacing="0">
+                    <thead class="bg-gradient-primary text-white">
+                        <tr>
+                        <th>{{name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody style="overflow-y:auto;height:488px;display:block;">
+                        {{#each ../services}}
+                          {{#ifEquals ../id cat_id}}
+                            <tr>
+                              <td>{{service_name}}</td>
+                              <td><a href="/add_room_services_to_room/{{id}}" class="btn btn-danger btn-sm">Delete</a></td>
+                            </tr>
+                          {{/ifEquals}}
+                        {{/each}}
+                        </tbody>
+                    </table>
+                  </div>
+                  {{/each}}
+                </div>
+                  
+              </div>
+            </div>
+          </div>
+
