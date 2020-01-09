@@ -2,19 +2,23 @@ const router = require('express').Router()
 const Joi = require('@hapi/joi');
 const con = require('../config/db')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const verify = require('./verify_route')
 
-router.get('/register', (req, res) => {
+
+
+router.get('/register', verify, (req, res) => {
     res.render('register')
 })
 
 
-router.get('/users', (req, res) => {
+router.get('/users', verify, (req, res) => {
     con.query("SELECT * FROM hotel_user", (error, results, fields) => {
         res.render('user', {results})
     })
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', verify, async (req, res) => {
     const schema = Joi.object({
         first_name: Joi.string().required(),
         last_name:Joi.string().required(),
@@ -48,6 +52,11 @@ router.post('/register', async (req, res) => {
 })
 
 
+router.get('/login', (req, res) => {
+    res.render('login', {layout: false})
+})
+
+
 router.post('/loginCheck', (req, res) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
@@ -66,11 +75,15 @@ router.post('/loginCheck', (req, res) => {
                 // compare password
                 const validPassword = await bcrypt.compare(value.password, user[0].password)
 
-                console.log(validPassword)
                 if(!validPassword){
                     return res.status(400).send('Email or Password is wrong')
                 }else{
-                    res.send(user)
+                    const token = jwt.sign({id: user[0].id}, process.env.TOKEN_SECRET, {expiresIn: '10s'})
+                    res.cookie('auth_token', token, {
+                        httpOnly: true
+                        // secure: true
+                    })
+                    res.redirect('/')
                 }
             }
         })

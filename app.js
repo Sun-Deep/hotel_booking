@@ -9,6 +9,9 @@ app.use(bodyParser.json())
 const dotenv = require('dotenv')
 dotenv.config()
 
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 const con = require('./config/db')
 
 var path = require('path')
@@ -78,9 +81,6 @@ app.get('/', (req, res) => {
     })
 })
 
-app.get('/login', (req, res) => {
-    res.render('login', {layout: false})
-})
 
 app.get('/hotel_categories', (req, res) => {
     con.query("SELECT * FROM hotel_categories", (error, results, fields) => {
