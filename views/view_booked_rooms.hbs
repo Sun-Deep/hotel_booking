@@ -1,0 +1,36 @@
+{{#each categories}}
+<h3>{{name}}</h3>
+<div class="row">
+    {{#each ../results}}
+    {{#ifEquals cat_id ../id}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            {{#ifEquals status 1}}
+            <div class="card border-left-success shadow h-100 py-2">
+            {{else}}
+            <div class="card border-left-primary shadow h-100 py-2">
+            {{/ifEquals}}
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    {{#ifEquals status 1}}
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Booked</div>
+                    {{else}}
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Not Booked</div>
+                    {{/ifEquals}}
+                    <div class="h4 mb-0 font-weight-bold text-gray-800">{{room_id}}</div>
+                </div>
+                <div class="col-auto">
+                    {{#ifEquals status 1}}
+                    <i class="far fa-check-circle fa-3x" style="color: #1cc88a"></i>
+                    {{else}}
+                    <i class="far fa-times-circle fa-3x" style="color: #4e73df;"></i>
+                    {{/ifEquals}}
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        {{/ifEquals}}
+    {{/each}}
+</div>
+{{/each}}

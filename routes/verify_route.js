@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 module.exports = function(req, res, next){
     const token = req.cookies.auth_token
     if(!token){
-        return res.status(401).send('Access Denied');
+        res.status(401).redirect('/admin/login');
     }
 
     try{
@@ -12,6 +12,6 @@ module.exports = function(req, res, next){
         req.user_id = verified
         next()
     }catch (err){
-        res.status(401).send('Invalid Token')
+        res.status(401).redirect('/admin/login')
     }
 }

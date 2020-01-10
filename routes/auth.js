@@ -43,7 +43,7 @@ router.post('/register', verify, async (req, res) => {
 
                 con.query("INSERT INTO hotel_user (first_name, last_name, email, phone, PASSWORD) VALUES (?, ?, ?, ?, ?)", 
                 [value.first_name, value.last_name, value.email, value.phone, hashPassword], (error, result, fileds) => {
-                    res.redirect('/users')
+                    res.redirect('/admin/users')
                 })
             }
         })
@@ -78,12 +78,12 @@ router.post('/loginCheck', (req, res) => {
                 if(!validPassword){
                     return res.status(400).send('Email or Password is wrong')
                 }else{
-                    const token = jwt.sign({id: user[0].id}, process.env.TOKEN_SECRET, {expiresIn: '10s'})
+                    const token = jwt.sign({id: user[0].id}, process.env.TOKEN_SECRET, {expiresIn: '10h'})
                     res.cookie('auth_token', token, {
                         httpOnly: true
                         // secure: true
                     })
-                    res.redirect('/')
+                    res.redirect('/admin')
                 }
             }
         })

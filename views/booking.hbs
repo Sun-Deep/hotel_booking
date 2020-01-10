@@ -3,7 +3,7 @@
 </div>
 
 
-<form method="POST" action="/booking">
+<form method="POST" action="/admin/booking">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="firstname">First Name</label>
@@ -132,7 +132,7 @@
           let room_number = values[j]
           $.ajax({
             type: 'GET',
-            url: '/rooms/' + values[j],
+            url: '/admin/rooms/' + values[j],
             success: (data) => {
             //  console.log(data)
               if (data.length > 0){

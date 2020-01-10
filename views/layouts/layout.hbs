@@ -108,12 +108,12 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/hotel_categories">View Room Categories</a>
-            <a class="collapse-item" href="/add_hotel_categories">Add Room Categories</a>
-            <a class="collapse-item" href="/rooms">View Rooms</a>
-            <a class="collapse-item" href="/add_room">Add Room</a>
-            <a class="collapse-item" href="/add_rate">Add Room Category Rate</a>
-            <a class="collapse-item" href="/view_room_rate">View Room Category Rate</a>
+            <a class="collapse-item" href="/admin/hotel_categories">View Room Categories</a>
+            <a class="collapse-item" href="/admin/add_hotel_categories">Add Room Categories</a>
+            <a class="collapse-item" href="/admin/rooms">View Rooms</a>
+            <a class="collapse-item" href="/admin/add_room">Add Room</a>
+            <a class="collapse-item" href="/admin/add_rate">Add Room Category Rate</a>
+            <a class="collapse-item" href="/admin/view_room_rate">View Room Category Rate</a>
 
           </div>
         </div>
@@ -126,8 +126,8 @@
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/room_features">View Features</a>
-            <a class="collapse-item" href="/add_room_feature">Add Features</a>
+            <a class="collapse-item" href="/admin/room_features">View Features</a>
+            <a class="collapse-item" href="/admin/add_room_feature">Add Features</a>
           </div>
         </div>
       </li>
@@ -139,10 +139,10 @@
         </a>
         <div id="collapseFour" class="collapse" aria-labelledby="collapseFour" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/room_services">View Services</a>
-            <a class="collapse-item" href="/add_room_services">Add Services</a>
-            <a class="collapse-item" href="/add_room_services_to_room">Add Services To Room</a>
-            <a class="collapse-item" href="/view_services_of_room">View Services Of Room</a>
+            <a class="collapse-item" href="/admin/room_services">View Services</a>
+            <a class="collapse-item" href="/admin/add_room_services">Add Services</a>
+            <a class="collapse-item" href="/admin/add_room_services_to_room">Add Services To Room</a>
+            <a class="collapse-item" href="/admin/view_services_of_room">View Services Of Room</a>
           </div>
         </div>
       </li>
@@ -154,16 +154,23 @@
         </a>
         <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/new_inquiry">View New Inquiries</a>
-            <a class="collapse-item" href="/old_inquiry">View Old Inquiries </a>
+            <a class="collapse-item" href="/admin/new_inquiry">View New Inquiries</a>
+            <a class="collapse-item" href="/admin/old_inquiry">View Old Inquiries </a>
           </div>
         </div>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link btn-medium btn-success" href="/booking">
-          <span style="font-size: 20px;">Booking</span>
+      <li class="nav-item bg-success">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBooking" aria-expanded="true" aria-controls="collapseBooking">
+          <i class="fas fa-book"></i>
+          <span style="font-size:large;">Booking</span>
         </a>
+        <div id="collapseBooking" class="collapse" aria-labelledby="headingFive" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="/admin/booking">Booking</a>
+            <a class="collapse-item" href="/admin/booked">View Booked Rooms</a>
+          </div>
+        </div>
       </li>
       
       <!-- Divider -->
@@ -379,9 +386,9 @@
         <div class="container-fluid">
           
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          {{!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          </div>
+          </div> --}}
 
           <!-- Content Row -->
           <div class="row">
