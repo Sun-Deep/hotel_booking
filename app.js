@@ -59,6 +59,9 @@ app.use('/admin/', inquiryRoute)
 const bookingRoute = require('./routes/booking')
 app.use('/admin/', bookingRoute)
 
+const checkoutRoute = require('./routes/checkout')
+app.use('/admin/', checkoutRoute)
+
 
 
 app.get('/admin', verify, (req, res) => {

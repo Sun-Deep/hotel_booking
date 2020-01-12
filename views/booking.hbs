@@ -194,12 +194,20 @@
         extra_bed = parseInt($("select[name="+ elementName[++i] +"]").val())
         total_extra_bed += extra_bed
         ++i
-        adult_amount = adult * rate[room_no][0] + rate[room_no][2] * Math.abs(adult - 1)
+        if(adult == 0){
+          adult_amount = 0
+        }else{
+          adult_amount = adult * rate[room_no][0] + rate[room_no][2] * Math.abs(adult - 1)
+        }
+        
         extra_bed_amount = rate[room_no][1] * extra_bed
         cat = rate[room_no][3]
         temp_detail.push({room_no, adult, child, extra_bed, adult_amount, extra_bed_amount, cat})
       }
-      console.log(rate)
+      if (Object.keys(temp_detail).length == 0){
+        service_charge = 0
+        tax = 0
+      }
       
       $(".adult").html(total_adult + " Adult")
       $(".child").html(total_child + " Child")

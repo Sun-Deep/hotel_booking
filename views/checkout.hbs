@@ -1,0 +1,117 @@
+<div class="row">
+    <div class="col-6">
+        <label for="booked_by">Booked By</label>
+        <select data-style="bg-white shadow-sm" data-live-search="true" class="form-control selectpicker" name="booked_by" id="booked_by">
+            <option value="0">- Search -</option>
+            {{#each results}}
+                <option value="{{book_id}}">{{booked_by}}</option>
+            {{/each}}
+        </select><!-- End -->
+    </div>
+    <div class="col-6">
+        <button onclick="generate_bill()" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white">
+                <i class="fas fa-search-dollar"></i>
+            </span>
+            <span class="text">Generate Bill</span>
+        </button>
+    </div>
+</div>
+
+<div class="mt-5 p-3 px-5" id="bill" style="background-color: white; color:black">
+    <div class="row"> 
+        <div class="col-12">
+            <div class="hotel-title text-center">
+                <i class="fas fa-utensils fa-2x"></i>
+                <p style="font-weight: 300; font-size:x-large">Hotel ABC</p>
+                <p>Janaki-Nagar, Rupdandehi</p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col-4 mt-2">
+            <div class="booked_by">
+                <p class="name">Name: </p>
+                <p>Invoice No:</p>
+            </div>
+        </div>
+        <div class="col-4 mt-2">
+            <div class="booked_by">
+                <p class="check_in">Arrival Date:</p>
+                <p class="check_out">Departure Date:</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="min-height: 100px;">
+        <div class="col-12">
+            <table>
+                <col width="50">
+                <col width="430">
+                <col width="100">
+                <col width="200">
+                <col width="300">
+                <thead>
+                    <th col="1">S.N</th>
+                    <th col="6">Description</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>Total Amount (NPR)</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <p>..................................................</p>
+            <p>Cashier's Signature</p>
+        </div>
+        <div class="col-4">
+            <p>..................................................</p>
+            <p>Guest's Signature</p>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-5">
+            <p>PLEASE DEPOSIT YOUR ROOM KEY CARD</p>
+        </div>
+        <div class="col-5">
+            <p>(Please collect receipt when paying by cash)</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function generate_bill(){
+        let book_id = $("#booked_by").val()
+        let name = ''
+        let arrival_date = ''
+        let departure_date = ''
+        $.ajax({
+            type: 'GET',
+            url: '/admin/bill/'+book_id,
+            success: (data) => {
+                if(data.length > 0){
+                    for (let i = 0; i < data.length; i++){
+                        name = data[i].booked_by
+                        arrival_date = data[i].checked_in
+                        departure_date = data[i].checked_out
+                    }
+                    $('.name').html('Name: '+name)
+                    $('.check_in').html('Arrival Date: '+arrival_date)
+                    $('.check_out').html('Departure Date: '+departure_date)
+
+                }
+            }
+            
+
+        })
+    }
+</script>
