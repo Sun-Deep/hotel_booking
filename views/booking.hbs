@@ -197,7 +197,7 @@
         if(adult == 0){
           adult_amount = 0
         }else{
-          adult_amount = adult * rate[room_no][0] + rate[room_no][2] * Math.abs(adult - 1)
+          adult_amount = rate[room_no][0] + rate[room_no][2] * Math.abs(adult - 1)
         }
         
         extra_bed_amount = rate[room_no][1] * extra_bed
