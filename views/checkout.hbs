@@ -8,12 +8,25 @@
             {{/each}}
         </select><!-- End -->
     </div>
-    <div class="col-6">
+    <div class="col-3">
         <button onclick="generate_bill()" class="btn btn-primary btn-icon-split">
             <span class="icon text-white">
                 <i class="fas fa-search-dollar"></i>
             </span>
             <span class="text">Generate Bill</span>
+        </button>
+    </div>
+    <div class="col-3">
+        <button onclick="printJS({
+            printable: 'bill', 
+            type: 'html', 
+            style: '.hotel-title{ text-align: center } table{clear: both; text-align: left} .booked_by{float: left} .booked_in{float: right; margin-right: 30px} .cashier-sign{float: left; margin-top: 30px;} .guest-sign{float:right; margin-top: 30px; margin-right: 30px;} .info{clear: both; text-align:center}',
+            header: ''
+            })" class="btn btn-success btn-icon-split">
+            <span class="icon text-white">
+                <i class="fas fa-print"></i>
+            </span>
+            <span class="text">Print Bill</span>
         </button>
     </div>
 </div>
@@ -23,7 +36,7 @@
         <div class="col-12">
             <div class="hotel-title text-center">
                 <i class="fas fa-utensils fa-2x"></i>
-                <p style="font-weight: 300; font-size:x-large">Hotel ABC</p>
+                <p style="font-weight: 300; font-size:x-large">{{hotel_name}}</p>
                 <p>Janaki-Nagar, Rupdandehi</p>
             </div>
         </div>
@@ -36,7 +49,7 @@
             </div>
         </div>
         <div class="col-4 mt-2">
-            <div class="booked_by">
+            <div class="booked_in">
                 <p class="check_in">Arrival Date:</p>
                 <p class="check_out">Departure Date:</p>
             </div>
@@ -45,37 +58,43 @@
 
     <div class="row" style="min-height: 100px;">
         <div class="col-12">
-            <table>
+            <table class="bill">
                 <col width="50">
                 <col width="430">
-                <col width="100">
                 <col width="200">
                 <col width="300">
                 <thead>
                     <th col="1">S.N</th>
                     <th col="6">Description</th>
-                    <th>Quantity</th>
-                    <th>Amount</th>
-                    <th>Total Amount (NPR)</th>
+                    <th>Rate</th>
+                    <th>Amount (NPR)</th>
                 </thead>
-                <tbody>
+                <tbody class="tbody">
                     
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-4">
+            <div class="cashier-sign">
+                <span>Sandeep Pokhrel</span>
             <p>..................................................</p>
             <p>Cashier's Signature</p>
+            </div>
+            
         </div>
         <div class="col-4">
+            <div class="guest-sign">
+                <span class="guest"></span>
             <p>..................................................</p>
             <p>Guest's Signature</p>
+            </div>
+            
         </div>
     </div>
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-5 info">
         <div class="col-5">
             <p>PLEASE DEPOSIT YOUR ROOM KEY CARD</p>
         </div>
@@ -90,23 +109,40 @@
 
 <script>
     function generate_bill(){
+        $('.tbody').remove()
         let book_id = $("#booked_by").val()
         let name = ''
         let arrival_date = ''
         let departure_date = ''
+        let tbody = ''
         $.ajax({
             type: 'GET',
             url: '/admin/bill/'+book_id,
             success: (data) => {
                 if(data.length > 0){
-                    for (let i = 0; i < data.length; i++){
-                        name = data[i].booked_by
-                        arrival_date = data[i].checked_in
-                        departure_date = data[i].checked_out
+                    // personal info
+                    name = data[0].person_info[0]
+                    arrival_date = data[0].person_info[1]
+                    departure_date = data[0].person_info[2]
+
+                    for (let i = 1; i < data.length - 1; i++){
+                        tbody += '<tbody class="tbody"><tr>'
+                        tbody += '<td>'+ i +'</td>'
+                        tbody += '<td>'+ data[i].room_cat + '(Adult: '+ data[i].adult +', Extra Bed: '+ data[i].extra_bed +') </td>'
+                        tbody += '<td>'+ data[i].amount +', '+ data[i].extra_bed_rate  + '</td>'
+                        tbody += '<td>'+ data[i].total_amount + '</td>'
+                        tbody += '</tr>' 
                     }
+                    tbody += '<tr><td></td><td>TAX</td><td>{{tax}} %</td><td></td></tr>'
+                    tbody += '<tr><th></th><th></th>'
+                    tbody += '<th> Total Amount </th>'
+                    tbody += '<th>' + data[data.length - 1].final_amount + '</th>'
+                    tbody += '</tr></tbody>'
                     $('.name').html('Name: '+name)
                     $('.check_in').html('Arrival Date: '+arrival_date)
                     $('.check_out').html('Departure Date: '+departure_date)
+                    $('.bill').append(tbody)
+                    $('.guest').html(name)
 
                 }
             }

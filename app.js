@@ -63,6 +63,12 @@ const checkoutRoute = require('./routes/checkout')
 app.use('/admin/', checkoutRoute)
 
 
+//global variables
+app.locals.tax = 13
+app.locals.hotel_name = "Hotel ABC"
+
+
+
 
 app.get('/admin', verify, (req, res) => {
     con.query("SELECT COUNT(id) as new_inquiry FROM hotel_inquiry WHERE called = 0",
