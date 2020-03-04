@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2020 at 06:24 AM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.1.30
+-- Generation Time: Mar 04, 2020 at 04:57 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,6 +25,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hotel_bill`
+--
+
+CREATE TABLE `hotel_bill` (
+  `id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `amount` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hotel_booking`
 --
 
@@ -36,29 +48,40 @@ CREATE TABLE `hotel_booking` (
   `checked_out` date NOT NULL,
   `booked_by` varchar(255) NOT NULL,
   `status` binary(1) NOT NULL,
-  `booking_amount` float NOT NULL,
   `adult` int(11) NOT NULL,
-  `child` int(11) DEFAULT NULL,
-  `extra_bed` int(11) DEFAULT NULL
+  `child` int(11) DEFAULT 0,
+  `extra_bed` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `hotel_booking`
 --
 
-INSERT INTO `hotel_booking` (`id`, `book_id`, `room_id`, `checked_in`, `checked_out`, `booked_by`, `status`, `booking_amount`, `adult`, `child`, `extra_bed`) VALUES
-(4, 1, 103, '2019-11-11', '2019-11-12', 'Tilak', 0x31, 300, 2, NULL, NULL),
-(5, 2, 204, '2019-11-13', '2019-11-15', 'Sandeep', 0x31, 500, 2, 1, 1),
-(6, 3, 301, '2019-11-18', '2019-11-20', 'Mr. Poudel', 0x31, 200, 1, NULL, 1),
-(7, 4, 110, '2019-11-13', '2019-11-16', 'Mr. Susan', 0x31, 335, 1, NULL, NULL),
-(8, 5, 203, '2019-11-27', '2019-11-29', 'Mr. Prem', 0x31, 100, 2, NULL, NULL),
-(9, 6, 105, '2019-11-12', '2019-11-15', 'Sandeep', 0x31, 110, 1, NULL, NULL),
-(10, 7, 401, '2019-11-14', '2019-11-16', 'Sandeep', 0x31, 200, 1, NULL, NULL),
-(11, 8, 205, '2019-11-27', '2019-11-29', 'Tilak', 0x31, 1000, 2, NULL, NULL),
-(12, 9, 202, '2019-11-14', '2019-11-16', 'sandeep', 0x31, 200, 1, NULL, NULL),
-(13, 10, 202, '2019-11-12', '2019-11-13', 'tilak', 0x30, 100, 2, NULL, NULL),
-(14, 11, 303, '2019-11-14', '2019-11-15', 'Sandeep', 0x31, 300, 2, 1, 1),
-(15, 12, 303, '2019-11-14', '2019-11-15', 'Sandeep', 0x31, 300, 2, 1, 1);
+INSERT INTO `hotel_booking` (`id`, `book_id`, `room_id`, `checked_in`, `checked_out`, `booked_by`, `status`, `adult`, `child`, `extra_bed`) VALUES
+(4, 1, 103, '2019-11-11', '2019-11-12', 'Tilak', 0x30, 2, 0, 0),
+(5, 2, 204, '2019-11-13', '2019-11-15', 'Sandeep', 0x31, 2, 1, 1),
+(6, 3, 301, '2019-11-18', '2019-11-20', 'Mr. Poudel', 0x31, 1, 0, 1),
+(7, 4, 110, '2019-11-13', '2019-11-16', 'Mr. Susan', 0x31, 1, 0, 0),
+(8, 5, 203, '2019-11-27', '2019-11-29', 'Mr. Prem', 0x31, 2, 0, 0),
+(9, 6, 105, '2019-11-12', '2019-11-15', 'Sandeep', 0x31, 1, 0, 0),
+(10, 7, 401, '2019-11-14', '2019-11-16', 'Sandeep', 0x31, 1, 0, 0),
+(11, 8, 205, '2019-11-27', '2019-11-29', 'Tilak', 0x31, 2, 0, 0),
+(12, 9, 202, '2019-11-14', '2019-11-16', 'sandeep', 0x31, 1, 0, 0),
+(13, 10, 202, '2019-11-12', '2019-11-13', 'tilak', 0x30, 2, 0, 0),
+(14, 11, 303, '2019-11-14', '2019-11-15', 'Sandeep', 0x31, 2, 1, 1),
+(15, 12, 303, '2019-11-14', '2019-11-15', 'Sandeep', 0x31, 2, 1, 1),
+(16, 13, 108, '2019-11-24', '2019-11-25', 'Hari Narayan', 0x31, 2, 1, 1),
+(17, 14, 102, '2019-11-24', '2019-11-26', 'Sandeep Pokhrel', 0x31, 2, 0, 1),
+(20, 15, 107, '0000-00-00', '0000-00-00', 'Ram Chaudhary', 0x31, 2, 0, 1),
+(21, 15, 204, '0000-00-00', '0000-00-00', 'Ram Chaudhary', 0x31, 1, 2, 1),
+(22, 15, 208, '0000-00-00', '0000-00-00', 'Ram Chaudhary', 0x31, 3, 0, 0),
+(27, 16, 405, '0000-00-00', '0000-00-00', 'Ram Chaudhary', 0x31, 4, 2, 1),
+(28, 17, 108, '2019-11-24', '2019-11-26', 'Sandeep Pokhrel', 0x31, 1, 0, 1),
+(29, 17, 403, '2019-11-24', '2019-11-26', 'Sandeep Pokhrel', 0x31, 4, 2, 1),
+(30, 18, 102, '2019-11-24', '2019-11-25', 'Hari Narayan', 0x31, 2, 0, 0),
+(31, 18, 201, '2019-11-24', '2019-11-25', 'Hari Narayan', 0x31, 2, 2, 1),
+(32, 19, 301, '2020-02-08', '2020-02-09', 'Pooza Karki', 0x31, 2, 0, 1),
+(33, 19, 402, '2020-02-08', '2020-02-09', 'Pooza Karki', 0x31, 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -202,8 +225,8 @@ CREATE TABLE `hotel_inquiry` (
 INSERT INTO `hotel_inquiry` (`id`, `first_name`, `last_name`, `contact`, `address`, `checked_in`, `checked_out`, `rooms`, `adult`, `child`, `extra_bed`, `amount`, `called`, `date`) VALUES
 (1, 'Sandeep', 'Pokhrel', '9876543210', 'Murgiya', '2019-11-24', '2019-11-26', 2, 3, 0, 0, 100, 1, '2019-12-17 10:17:57'),
 (2, 'Ram', 'Chaudhary', '9876898765', 'Butwal', '0000-00-00', '0000-00-00', 1, 1, 0, 0, 40, 1, '2019-12-17 08:53:37'),
-(3, 'Shyam', 'Sharma', '9868338999', 'Golpark', '0000-00-00', '0000-00-00', 2, 2, 0, 0, 200, 0, '2019-12-17 08:53:46'),
-(4, 'Hari', 'Narayan', '9876765434', 'Milanchowk', '2019-11-24', '2019-11-25', 2, 2, 0, 0, 100, 1, '2019-12-17 08:53:50');
+(3, 'Shyam', 'Sharma', '9868338999', 'Golpark', '0000-00-00', '0000-00-00', 2, 2, 0, 0, 200, 1, '2020-01-10 11:47:13'),
+(4, 'Hari', 'Narayan', '9876765434', 'Milanchowk', '2019-11-24', '2019-11-25', 2, 2, 0, 0, 100, 1, '2020-02-07 11:10:04');
 
 -- --------------------------------------------------------
 
@@ -224,16 +247,16 @@ CREATE TABLE `hotel_room` (
 
 INSERT INTO `hotel_room` (`id`, `cat_id`, `room_id`, `status`) VALUES
 (1, 1, 101, 1),
-(14, 1, 102, 0),
+(14, 1, 102, 1),
 (15, 1, 103, 0),
 (17, 1, 104, 0),
 (18, 1, 105, 1),
 (19, 1, 106, 0),
 (20, 1, 107, 0),
-(21, 1, 108, 0),
+(21, 1, 108, 1),
 (22, 1, 109, 1),
 (23, 1, 110, 0),
-(24, 2, 201, 0),
+(24, 2, 201, 1),
 (25, 2, 202, 0),
 (26, 2, 203, 1),
 (27, 2, 204, 0),
@@ -242,18 +265,18 @@ INSERT INTO `hotel_room` (`id`, `cat_id`, `room_id`, `status`) VALUES
 (30, 2, 207, 1),
 (31, 2, 208, 0),
 (32, 2, 209, 0),
-(33, 3, 301, 0),
+(33, 3, 301, 1),
 (34, 3, 302, 1),
 (35, 3, 303, 0),
-(36, 3, 304, 0),
+(36, 3, 304, 1),
 (37, 3, 305, 0),
 (38, 3, 306, 0),
 (39, 3, 307, 1),
 (40, 4, 401, 0),
-(41, 4, 402, 0),
-(42, 4, 403, 0),
+(41, 4, 402, 1),
+(42, 4, 403, 1),
 (43, 4, 404, 0),
-(44, 4, 405, 0);
+(44, 4, 405, 1);
 
 -- --------------------------------------------------------
 
@@ -325,16 +348,46 @@ INSERT INTO `hotel_room_services` (`id`, `cat_id`, `service_id`) VALUES
 (55, 4, 15),
 (63, 4, 19);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hotel_user`
+--
+
+CREATE TABLE `hotel_user` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `password` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hotel_user`
+--
+
+INSERT INTO `hotel_user` (`id`, `first_name`, `last_name`, `email`, `phone`, `password`) VALUES
+(1, 'Sandeep', 'Pokhrel', 'sundeepp29@gmail.com', '9868338755', '$2a$10$aBabkJ9uIiNm4Yt5Kdt0Eey/.vWbL.6yXM4QeT9L9vJV/LDBuPfZu'),
+(3, 'Sagar', 'Gharti', 'sagar@gharti.com', '987654321', '$2a$10$WXA3B8Kb7Ya7XumGPHsLtOX5nYK6I1xnOgZF1mflQHzMKdPBTET8a'),
+(4, 'Adit', 'Malla', 'aadimalla10@gmail.com', '9868840713', '$2a$10$eteFgDrm9kKFluFWupYEreWOwW82qzwfL5eYOWiJoRIUC4JvOI1BO'),
+(5, 'Pooza', 'Karki', 'pooza@gmail.com', '9840413682', '$2a$10$bZh3k2jc/bqEbsNuwaJx0u4/oBY7UUR2a9QpRrLyphSM2GYCIDnfW');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `hotel_bill`
+--
+ALTER TABLE `hotel_bill`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `hotel_booking`
 --
 ALTER TABLE `hotel_booking`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `book_id` (`book_id`),
   ADD KEY `hotel_booking_fk0` (`room_id`);
 
 --
@@ -387,14 +440,26 @@ ALTER TABLE `hotel_room_services`
   ADD KEY `hotel_room_services_fk1` (`service_id`);
 
 --
+-- Indexes for table `hotel_user`
+--
+ALTER TABLE `hotel_user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `hotel_bill`
+--
+ALTER TABLE `hotel_bill`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hotel_booking`
 --
 ALTER TABLE `hotel_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `hotel_categories`
@@ -437,6 +502,12 @@ ALTER TABLE `hotel_room`
 --
 ALTER TABLE `hotel_room_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
+-- AUTO_INCREMENT for table `hotel_user`
+--
+ALTER TABLE `hotel_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
